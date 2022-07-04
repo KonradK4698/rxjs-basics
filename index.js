@@ -11,7 +11,6 @@ const observable = new Observable(subscriber => {
 
     const id = setInterval(() => {
         subscriber.next(count);
-        subscriber.complete();
         count += 1;
     }, 1000);
 
@@ -22,5 +21,13 @@ const observable = new Observable(subscriber => {
 });
 
 console.log('before');
-observable.subscribe(observer)
+const subscription = observable.subscribe(observer);
+const subscription2 = observable.subscribe(observer);
 console.log('after');
+
+subscription.add(subscription2); //wywołanie dwóch subskrybcji jednocześnie
+
+setTimeout(() => {
+    subscription.unsubscribe();
+    subscription2.unsubscribe();
+},3500);
