@@ -1,5 +1,5 @@
 import {from} from 'rxjs'; 
-import { reduce, scan, map } from 'rxjs/operators';
+import { reduce, scan, map, distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs/operators';
 
 const numbers = [1,2,3,4,5]; 
 
@@ -22,6 +22,10 @@ const state$ = from(user).pipe(
 )
 
 const name$ = state$.pipe(
+    // distinctUntilChanged((prev, curr)=> {
+    //     return prev.name === curr.name;
+    // }),
+    distinctUntilKeyChanged('name'),
     map(state => state.name)
 );
 
