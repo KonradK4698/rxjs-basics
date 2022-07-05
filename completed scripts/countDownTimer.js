@@ -1,5 +1,5 @@
 const { interval } = rxjs;
-const { scan, mapTo, filter } = rxjs.operators;
+const { scan, mapTo, filter, takeWhile } = rxjs.operators;
 
 const countdown = document.querySelector('#countDown')
 const message = document.querySelector('#message')
@@ -11,7 +11,7 @@ counter$.pipe(
     scan((accumulator, current) => {
         return accumulator + current;
     }, 10),
-    filter(value => value >= 0)
+    takeWhile(value => value >= 0)
 ).subscribe(value => {
     countdown.innerHTML = value;
     if(!value){
